@@ -53,7 +53,8 @@ jobs:
         cd uboot
         cd toolchain
         tar -xf mips-2012.03.tar.bz2
-        sudo mv mips-2012.03 /opt        
+        sudo mv mips-2012.03 /opt
+        cd ..
         cp MT7621A_defconfig .config
         export PATH=/opt/mips-2012.03/bin:$PATH
         echo -e "$(nproc) thread compile"
