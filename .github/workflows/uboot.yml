@@ -12,7 +12,7 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: https://github.com/monw/MT7621-U-Boot
+  REPO_URL: https://github.com/monw/mt7621-uboot
   REPO_BRANCH: master
   CONFIG_FILE: .config
   UPLOAD_BIN_DIR: true
@@ -51,9 +51,12 @@ jobs:
       id: compile
       run: |
         cd uboot
-        make jdcloud_re-cp-02_defconfig
+        cd toolchain
+        tar -xf mips-2012.03.tar.bz2
+        sudo mv mips-2012.03 /opt        
+        cp MT7621A_defconfig .config
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make CROSS_COMPILE=/opt/mips-2012.03/bin/mipsel-linux-  ARCH=mips
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
