@@ -56,7 +56,7 @@ jobs:
         sudo mv mips-2012.03 /opt
         cd ..
         cp MT7621A_defconfig .config
-        export PATH=/opt/mips-2012.03/bin:$PATH
+        make CROSS_COMPILE=/opt/mips-2012.03/bin/mipsel-linux- ARCH=mips
         echo -e "$(nproc) thread compile"
         make -j1 V=s
         echo "::set-output name=status::success"
